@@ -25,5 +25,8 @@ const cors = require('cors');
 app.use(cors());
 // =============== ROUTES ==============================
 app.use('/users', require('./routes/users.routes'));
+app.get('/test-route',(req,res) => {
+	res.json({ok:true,message:'working as expected'});
+})
 // =============== START SERVER =====================
 app.listen(port, () => console.log(`server listening on port ${port}`));

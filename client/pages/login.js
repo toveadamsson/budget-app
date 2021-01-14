@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, {useState} from "react";
 import {
   StyleSheet,
   View,
@@ -8,12 +7,37 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import axios from "axios";
+//?==============================================================================
+const Login = ({ navigation }) => {
+  const [form, setValues] = useState({
+    email: "",
+    password: "",
+  });
 
-//?============================================================================================
-const Login = ({navigation}) => {
+  // const handleSubmit = async (e) => {
+  //   try {
+  //     const response = await axios.post(`http://localhost:3040/users/login`, {
+  //       email: form.email,
+  //       password: form.password,
+  //     });
+
+  //     setMessage(response.data.message);
+
+  //     if (response.data.ok) {
+  //       setTimeout(() => {
+  //         props.login(response.data.token);
+  //         props.history.push("/secret-page");
+  //       }, 2000);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <View style={styles.container}>
-      {/* ---------------------------------------------------------------------------------------- */}
+      {/* --------------------------------------------------------------------- */}
       <View style={styles.textContainer}>
         <Text style={styles.introTitle}>Initial Page</Text>
         <View>
@@ -23,15 +47,26 @@ const Login = ({navigation}) => {
           ></Image>
         </View>
       </View>
-      {/* ---------------------------------------------------------------------------------------- */}
+      {/* -------------------------------------------------------------------- */}
       <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <View style={{ flexDirection: "row" }}>
+        {/* --------------------------------------------------------------------- */}
+        <View
+          // onChange={handleChange} onSubmit={handleSubmit}
+          style={{ flexDirection: "row" }}
+        >
           <Text style={styles.email}>Email</Text>
-          <TextInput style={styles.textInput}></TextInput>
+          <TextInput
+            onChangeText={(text) => setValues({ ...form, email: text })}
+            style={styles.textInput}
+          ></TextInput>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <TextInput style={styles.email}>Password</TextInput>
-          <TextInput style={styles.textInput}></TextInput>
+          <Text style={styles.email}>Password</Text>
+          <TextInput
+            onChangeText={(text) => setValues({ ...form, password: text })}
+            style={styles.textInput}
+          ></TextInput>
+          {/* ----------------------------------------------------------------- */}
         </View>
 
         <View>
@@ -46,13 +81,13 @@ const Login = ({navigation}) => {
               paddingRight: 10,
               paddingBottom: 5,
             }}
-            onPress={()=> {}}
+            onPress={() => {}}
           >
             <Text>Click me</Text>
           </TouchableOpacity>
         </View>
       </View>
-      {/* ---------------------------------------------------------------------------------------- */}
+      {/*---------------------------------------------------------------------- */}
       <View
         style={{
           flexDirection: "row",
@@ -62,23 +97,25 @@ const Login = ({navigation}) => {
       >
         <Text>Haven't registered yet? Do it</Text>
         <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: "black",
-              marginTop: 5,
-              marginBottom: 5,
-              marginLeft: 5,
-              paddingTop: 5,
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 5,
-            }}
-            onPress={()=> {navigation.navigate('Register')}}
-          >
-            <Text>Here</Text>
-          </TouchableOpacity>
-        </View>
+          style={{
+            borderWidth: 1,
+            borderColor: "black",
+            marginTop: 5,
+            marginBottom: 5,
+            marginLeft: 5,
+            paddingTop: 5,
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingBottom: 5,
+          }}
+          onPress={() => {
+            navigation.navigate("Register");
+          }}
+        >
+          <Text>Here</Text>
+        </TouchableOpacity>
       </View>
+    </View>
   );
 };
 

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet, KeyboardAvoidingView, View } from "react-native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //?============================================================
 //?============================================================
 //?============================================================
@@ -17,14 +19,28 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 //?============================================================
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const test = async() => {
+      try{
+        const token = await AsyncStorage.getItem('token')
+        if(token===null)return setIsLoggedIn(false)
+        axios.defaults.headers.common['Authorization'] = token;
+        const response = await axios.get('http://localhost:3040/users/verify_token');
+response.data.token
+? setIsLoggedIn(true)
+: setIsLoggedIn(false)
+        //  ;
+        //  console.log('response ==>',response.data);
+      }catch(error){
+        console.log(error)
+      }
+    }
+    test()
+  },[])
+  //?======================================================== 
   return (
-    // <AddExpense />
-    // <KeyboardAvoidingView
-    //   style={styles.container}
-    //   behavior={Platform.OS === "ios" ? "padding" : "height"}
-    // >
+ 
     <>
       {!isLoggedIn ? (
         <NavigationContainer>
@@ -64,7 +80,7 @@ export default function App() {
         </NavigationContainer>
       )}
       </>
-    // </KeyboardAvoidingView>
+   
   );
 }
 
