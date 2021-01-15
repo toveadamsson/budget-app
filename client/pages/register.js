@@ -19,12 +19,16 @@ const Register = ({ navigation }) => {
   });
   const test = async() =>{
     try{
-        const response = await axios.post('192.168.1.54:3040/users/register', form)
+
+      const response = await axios.post('http://192.168.1.54:3040/users/register',{form})
+
+        // const response = await axios.post('192.168.1.54:3040/users/register', form)
         if(response.data.ok)return navigation.navigate("Login")
     }catch(error){
       console.log(error)
     }
   }
+
   return (
     <View style={styles.container}>
       <Text style={styles.introTitle}>Register Page</Text>

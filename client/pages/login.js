@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
     <View style={styles.container}>
       {/* --------------------------------------------------------------------- */}
       <View style={styles.textContainer}>
-        <Text style={styles.introTitle}>Initial Page</Text>
+        <Text style={styles.introTitle}>Budget-App</Text>
         <View>
           <Image
             style={styles.imageLogo}
@@ -91,7 +91,7 @@ const Login = ({ navigation }) => {
             navigation.navigate("Register");
           }}
         >
-          <Text>Here</Text>
+          <Text style={styles.registerButton}>Here</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#e7e7de",
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "blue",
+    borderColor: "#008891",
     borderWidth: 5,
     width: "100%",
   },
   textContainer: {
-    borderWidth: 1,
-    borderColor: "pink",
+    // borderWidth: 0,
+    // borderColor: "pink",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 100,
@@ -128,14 +128,16 @@ const styles = StyleSheet.create({
   introTitle: {
     fontSize: 70,
     fontWeight: "600",
-    borderWidth: 1,
-    borderColor: "green",
+    // borderWidth: 1,
+    // borderColor: "green",
     color: '#008891',
+    marginBottom:10,
+    
   },
   inputContainer: {
     height: 150,
-    borderWidth: 1,
-    borderColor: "red",
+    // borderWidth: 1,
+    // borderColor: "red",
     paddingVertical: 20,
     justifyContent: "space-between",
     alignItems: "center",
@@ -149,23 +151,31 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   clickMe: {
-    borderWidth: 1,
-    borderColor: "#00587a",
+    // borderWidth:0,
+    // borderColor: "#00587a",
+    borderRadius: 4,
     marginVertical: 5,
     paddingHorizontal: 15,
     paddingVertical: 10,
+    backgroundColor:'#e0e0d3',
   },
   loginButton:{
     fontSize:20,
-    color: '#008891'
+    color: '#008891',
   },
   clickRegister: {
-    backgroundColor: "lightgrey",
-    borderWidth: 1,
-    borderColor: "grey",
+    // backgroundColor: "lightgrey",
+    // borderWidth: 1,
+    // borderColor: "grey",
     marginLeft: 5,
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
+  registerButton:{
+    color: '#008891',
+    fontWeight: 'bold',
+   
+    fontSize: 20,
+  }
 });
