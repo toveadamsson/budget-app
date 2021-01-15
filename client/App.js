@@ -23,13 +23,13 @@ export default function App() {
   useEffect(() => {
     const test = async() => {
       try{
-        const token = await AsyncStorage.getItem('token')
-        if(token===null)return setIsLoggedIn(false)
-        axios.defaults.headers.common['Authorization'] = token;
-        const response = await axios.get('http://localhost:3040/users/verify_token');
-response.data.token
-? setIsLoggedIn(true)
-: setIsLoggedIn(false)
+//         const token = await AsyncStorage.getItem('token')
+//         if(token===null)return setIsLoggedIn(false)
+//         axios.defaults.headers.common['Authorization'] = token;
+//         const response = await axios.get('http://localhost:3040/users/verify_token');
+// response.data.token
+// ? setIsLoggedIn(true)
+// : setIsLoggedIn(false)
         //  ;
         //  console.log('response ==>',response.data);
       }catch(error){

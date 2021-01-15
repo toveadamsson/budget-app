@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -48,42 +48,31 @@ const Login = ({ navigation }) => {
         </View>
       </View>
       {/* -------------------------------------------------------------------- */}
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
+      <View style={styles.inputContainer}>
         {/* --------------------------------------------------------------------- */}
         <View
           // onChange={handleChange} onSubmit={handleSubmit}
           style={{ flexDirection: "row" }}
         >
-          <Text style={styles.email}>Email</Text>
           <TextInput
             onChangeText={(text) => setValues({ ...form, email: text })}
-            style={styles.textInput}
+            style={styles.input}
+            placeholder={"E-mail"}
           ></TextInput>
         </View>
         <View style={{ flexDirection: "row" }}>
-          <Text style={styles.email}>Password</Text>
           <TextInput
             onChangeText={(text) => setValues({ ...form, password: text })}
-            style={styles.textInput}
+            style={styles.input}
+            placeholder={"Password"}
           ></TextInput>
-          {/* ----------------------------------------------------------------- */}
         </View>
-
+      </View>
+      {/* ----------------------------------------------------------------- */}
+      <View>
         <View>
-          <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: "brown",
-              marginTop: 5,
-              marginBottom: 5,
-              paddingTop: 5,
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 5,
-            }}
-            onPress={() => {}}
-          >
-            <Text>Click me</Text>
+          <TouchableOpacity style={styles.clickMe} onPress={() => {}}>
+            <Text style={styles.loginButton}>Log in</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -97,17 +86,7 @@ const Login = ({ navigation }) => {
       >
         <Text>Haven't registered yet? Do it</Text>
         <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            borderColor: "black",
-            marginTop: 5,
-            marginBottom: 5,
-            marginLeft: 5,
-            paddingTop: 5,
-            paddingLeft: 10,
-            paddingRight: 10,
-            paddingBottom: 5,
-          }}
+          style={styles.clickRegister}
           onPress={() => {
             navigation.navigate("Register");
           }}
@@ -124,7 +103,7 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e7e7de",
     alignItems: "center",
     justifyContent: "center",
     borderColor: "blue",
@@ -151,15 +130,42 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     borderWidth: 1,
     borderColor: "green",
+    color: '#008891',
   },
-  textInput: {
+  inputContainer: {
+    height: 150,
     borderWidth: 1,
-    borderColor: "black",
-    marginBottom: 5,
-    width: 120,
-    marginLeft: 5,
+    borderColor: "red",
+    paddingVertical: 20,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  email: {
-    color: "green",
+  input: {
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: "#00587a",
+    width: 330,
+    padding: 15,
+    fontSize: 20,
+  },
+  clickMe: {
+    borderWidth: 1,
+    borderColor: "#00587a",
+    marginVertical: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+  },
+  loginButton:{
+    fontSize:20,
+    color: '#008891'
+  },
+  clickRegister: {
+    backgroundColor: "lightgrey",
+    borderWidth: 1,
+    borderColor: "grey",
+    marginLeft: 5,
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
 });

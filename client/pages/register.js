@@ -19,7 +19,7 @@ const Register = ({ navigation }) => {
   });
   const test = async() =>{
     try{
-        const response = await axios.post('http://localhost:3040/test-route', form)
+        const response = await axios.post('192.168.1.54:3040/users/register', form)
         if(response.data.ok)return navigation.navigate("Login")
     }catch(error){
       console.log(error)
@@ -140,12 +140,16 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     height: "30%",
+    
   },
   textInput: {
     borderWidth: 1,
     borderColor: "black",
     marginBottom: 5,
-    width: 120,
+    width: 220,
+    height: 40,
     marginLeft: 5,
+    padding: 5,
+    marginVertical:5,
   },
 });
