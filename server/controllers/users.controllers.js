@@ -10,8 +10,8 @@ const jwt_secret = process.env.JWT_SECRET;
 //     password2: form.password2
 //  }
 const register = async (req, res) => {
-	const { email, password, password2 } = req.body;
-	if (!email || !password || !password2) return res.json({ ok: false, message: 'All fields are required' });
+	const { name,email, password, password2, income } = req.body;
+	if (!name || !email || !password || !password2 || !income ) return res.json({ ok: false, message: 'All fields are required' });
 	if (password !== password2) return res.json({ ok: false, message: 'passwords must match' });
 	if (!validator.isEmail(email)) return res.json({ ok: false, message: 'please provide a valid email' });
 	try {
@@ -22,8 +22,10 @@ const register = async (req, res) => {
 		const hash = await argon2.hash(password);
 		console.log('hash ==>', hash);
 		const newUser = {
+			name,
 			email,
-			password: hash
+			password: hash,
+			income,
 		};
 		await User.create(newUser);
 		res.json({ ok: true, message: 'successfully registered' });

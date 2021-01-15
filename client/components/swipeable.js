@@ -38,7 +38,7 @@ export default function Basic() {
             underlayColor={'#AAA'}
         >
             <View>
-                <Text>I am {data.item.text} in a SwipeListView</Text>
+                <Text style={styles.text}>I am {data.item.text} in a SwipeListView</Text>
             </View>
         </TouchableHighlight>
     );
@@ -48,13 +48,13 @@ export default function Basic() {
                 style={[styles.backRightBtn, styles.backRightBtnLeft]}
                 onPress={() => closeRow(rowMap, data.item.key)}
             >
-                <Text style={styles.backTextWhite}>Close</Text>
+                <Text style={styles.backTextWhite}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.backRightBtn, styles.backRightBtnRight]}
                 onPress={() => deleteRow(rowMap, data.item.key)}
             >
-                <Text style={styles.backTextWhite}>Delete</Text>
+                <Text style={styles.backTextWhite}>Remove</Text>
             </TouchableOpacity>
         </View>
     );
@@ -70,26 +70,39 @@ export default function Basic() {
                 previewOpenValue={-40}
                 previewOpenDelay={3000}
                 onRowDidOpen={onRowDidOpen}
+    
             />
         </View>
     );
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: "#e7e7de",
         flex: 1,
         width: '100%',
     },
     backTextWhite: {
-        color: '#FFF',
+        color: '#e7e7de',
+   
+    },
+    text:{
+        color:'#0f3057',  
+        backgroundColor: "#e0e0d3",
+        height:"100%",
+        width:370,
+        paddingTop:25,
+        paddingLeft: 5,
+     
     },
     rowFront: {
         alignItems: 'center',
-        backgroundColor: 'white',
-        borderBottomColor: 'black',
+        backgroundColor: "#e0e0d3",
+        // marginBottom:4,
+        borderColor: "#00587a",
         borderBottomWidth: 1,
         justifyContent: 'center',
-        height: 50,
+        height: 60,
+        
     },
     rowBack: {
         alignItems: 'center',
@@ -108,11 +121,11 @@ const styles = StyleSheet.create({
         width: 75,
     },
     backRightBtnLeft: {
-        backgroundColor: 'blue',
+        backgroundColor: '#0f3057',
         right: 75,
     },
     backRightBtnRight: {
-        backgroundColor: 'red',
+        backgroundColor: '#ef4f4f',
         right: 0,
     },
 });

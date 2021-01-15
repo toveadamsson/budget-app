@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import axios from "axios";
 //?==============================================================================
-const Login = ({ navigation }) => {
+const Login = ({ navigation,login}) => {
   const [form, setValues] = useState({
-    email: "",
-    password: "",
+    email: "Toveadamsson@gmail.com",
+    password: "Toad9009",
   });
 
   // const handleSubmit = async (e) => {
@@ -24,16 +24,30 @@ const Login = ({ navigation }) => {
 
   //     setMessage(response.data.message);
 
-  //     if (response.data.ok) {
-  //       setTimeout(() => {
-  //         props.login(response.data.token);
-  //         props.history.push("/secret-page");
-  //       }, 2000);
-  //     }
+      
   //   } catch (error) {
   //     console.log(error);
   //   }
   // };
+
+  const test = async() =>{
+    try{
+
+      const response = await axios.post('http://192.168.1.54:3040/users/login',{...form})
+console.log(response.data)
+        // const response = await axios.post('192.168.1.54:3040/users/register', form)
+        // if(response.data.ok)return navigation.navigate("Login")
+        if (response.data.ok) {
+          setTimeout(() => {
+            login(response.data.token);
+            
+          }, 2000);
+        }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
 
   return (
     <View style={styles.container}>
@@ -41,10 +55,10 @@ const Login = ({ navigation }) => {
       <View style={styles.textContainer}>
         <Text style={styles.introTitle}>Budget-App</Text>
         <View>
-          <Image
+          {/* <Image
             style={styles.imageLogo}
-            source={require("../assets/circle.jpeg")}
-          ></Image>
+            source={{ uri: "https://picsum.photos/200/300" }}
+          ></Image> */}
         </View>
       </View>
       {/* -------------------------------------------------------------------- */}
@@ -71,7 +85,7 @@ const Login = ({ navigation }) => {
       {/* ----------------------------------------------------------------- */}
       <View>
         <View>
-          <TouchableOpacity style={styles.clickMe} onPress={() => {}}>
+          <TouchableOpacity style={styles.clickMe} onPress={() => {test()}}>
             <Text style={styles.loginButton}>Log in</Text>
           </TouchableOpacity>
         </View>
@@ -106,8 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e7e7de",
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "#008891",
-    borderWidth: 5,
+
     width: "100%",
   },
   textContainer: {
@@ -120,8 +133,7 @@ const styles = StyleSheet.create({
   imageLogo: {
     height: 100,
     width: 100,
-    borderWidth: 1,
-    borderColor: "red",
+   
     justifyContent: "center",
     alignItems: "center",
   },
@@ -171,11 +183,12 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
+    fontSize:15,
+
   },
   registerButton:{
     color: '#008891',
     fontWeight: 'bold',
-   
-    fontSize: 20,
+    fontSize: 15,
   }
 });

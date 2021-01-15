@@ -1,39 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import CategoryPicker from "../components/categoryPicker.js";
 import DatePicker from "../components/datePicker.js";
-import TimePicker from "../components/timePicker"
-const AddExpense = () => {
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//?==============================================================================
+
+const AddExpense = (navigation) => {
+
+
+  const [form, setValues] = useState({
+    item: "Coffee",
+    amount: 10,
+    date:"hello",
+    category:"hello",
+  });
+  const test = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+  
+      axios.defaults.headers.common["Authorization"] = token;
+      const response = await axios.post("http://192.168.1.54:3040/expenses/add", {
+        ...form,
+      });
+      console.log(response.data);
+      // const response = await axios.post('192.168.1.54:3040/users/register', form)
+      // if(response.data.ok)return navigation.navigate("Login")
+      if (response.data.ok) {
+        setTimeout(() => {
+          alert('task created')
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
       <View style={styles.header}>
-        <Text style={{ color: "darkblue", fontSize: 30 }}>
-          Add expense Page
-        </Text>
+        <Text style={{ color: "#00587a", fontSize: 30 }}>Add expense Page</Text>
       </View>
       <View style={styles.addContainer}>
         {/* =========================== WHAT ================================================= */}
 
-        <View style={{ flexDirection: "row", borderColor: 'purple', borderWidth:2, margin:5, padding:5, }}>
-          <Text style={styles.text}>What</Text>
-          <TextInput style={styles.textInput}></TextInput>
+        <View style={styles.amountContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Add Item"
+            onChangeText={(text) => setValues({ ...form, item: text })}
+          ></TextInput>
         </View>
-        {/* <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>When</Text>
-          <TextInput style={styles.textInput}></TextInput>
-        </View> */}
 
-         {/* =======================     HOW MUCH   =============================================== */}
+        {/* =======================     AMOUNT   =============================================== */}
 
-        <View style={{ flexDirection: "row",borderColor: 'purple', borderWidth:2, margin:5,padding:5,}}>
-          <Text style={styles.text}>How much</Text>
-          <TextInput style={styles.textInput}></TextInput>
+        <View style={styles.amountContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Add Amount"
+            onChangeText={(text) => setValues({ ...form, amount: text })}
+          ></TextInput>
         </View>
         {/* ============================     DATE    =========================================== */}
 
@@ -42,42 +76,23 @@ const AddExpense = () => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            borderWidth: 1,
-            borderColor: "green",
           }}
         >
-          {/* <Text style={styles.text}>Date</Text> */}
-          <DatePicker />
+          <DatePicker
+            onChangeText={(text) => setValues({ ...form, date: text })}
+          />
         </View>
-        {/* ============================     TIME    =========================================== */}
-
-{/* 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            borderWidth: 1,
-            borderColor: "green",
-          }}
-        >
-          <Text style={styles.text}>Time</Text>
-          <TimePicker />
-        </View> */}
-
-       
         {/* =======================      CATEGORY      ========================================== */}
         <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            borderWidth: 1,
-            borderColor: "green",
           }}
         >
-          {/* <Text style={styles.text}>Category</Text> */}
-          <CategoryPicker />
+          <CategoryPicker
+            onChangeText={(text) => setValues({ ...form, category: text })}
+          />
         </View>
         {/* ============================================================================ */}
       </View>
@@ -85,61 +100,81 @@ const AddExpense = () => {
       <View>
         <TouchableOpacity
           style={{
+            width: "40%",
+            borderRadius: 3,
             borderWidth: 1,
-            borderColor: "brown",
-            marginTop: 5,
+            borderColor: "#0f3057",
             alignItems: "center",
             paddingHorizontal: 5,
             paddingVertical: 10,
+            alignSelf: "center",
+            backgroundColor: "#e0e0d3",
           }}
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate("Overview")
+            test();
+          }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "700" }}>Add me</Text>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "700",
+              color: "#0f3057",
+              // borderColor: "black",
+              // borderWidth: 1,
+            }}
+          >
+            Add me
+          </Text>
         </TouchableOpacity>
       </View>
       {/* ============================================================================ */}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 export default AddExpense;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
-    borderColor: "blue",
-    borderWidth: 5,
+    height: "100%",
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
+    backgroundColor: "#e7e7de",
   },
   header: {
-    backgroundColor: "lightblue",
+    backgroundColor: "#e0e0d3",
     width: "100%",
-    height: "10%",
+    height: "15%",
     alignSelf: "flex-start",
     justifyContent: "center",
     alignItems: "center",
-    // marginBottom:'50%',
+
   },
   addContainer: {
-    borderWidth: 4,
-    borderColor: "black",
     justifyContent: "center",
     alignItems: "center",
-    height: "80%",
-  },
-  text: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 5,
-    marginBottom: 5,
-    marginTop: 5,
+    height: "75%",
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: "lightblue",
-    margin: 5,
-    paddingVertical: 5,
-    width: '70%',
+    height: 30,
+    borderBottomWidth: 1,
+    borderBottomColor: "#008891",
+    width: "100%",
+    paddingLeft: 5,
+    color: "#008891",
+    backgroundColor: "#e0e0d3",
+    fontSize: 23,
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    // textDecorationLine: 'underline'
+  },
+  amountContainer: {
+    flexDirection: "row",
+    color: "#008891",
+    backgroundColor: "#e0e0d3",
+    height: 70,
+    paddingHorizontal: 7,
+    // borderWidth: 1,
+    // borderColor: "green",
+    alignItems: "center",
   },
 });

@@ -11,10 +11,10 @@ export default function App() {
           height: 70,
           width: '100%',
           justifyContent: "center",
-          borderWidth: 1,
-          borderColor: "red",
+          // borderWidth: 1,
+          // borderColor: "red",
         }}
-        itemStyle={{ color: "blue", backgroundColor:'orange', height:70, }}
+        itemStyle={{ color: '#008891', backgroundColor:'#e0e0d3', height:70, }}
         selectedValue={currency}
         onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
       >
@@ -31,10 +31,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e7e7de",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "yellow",
+    // borderWidth: 1,
+    // borderColor: "yellow",
   },
 });

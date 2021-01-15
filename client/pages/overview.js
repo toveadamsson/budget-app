@@ -1,29 +1,47 @@
-import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
-import Swipeable from '../components/swipeable.js'
+import React, { useEffect }from "react";
+import { StyleSheet, View, Text, Image, } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Swipeable from "../components/swipeable.js";
 
 const Overview = () => {
+  const [seeAll, setSeeAll] = useState()
+  useEffect(() => {
+    const test = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = token;
+        const response = await axios.get(
+          "http://192.168.1.54:3040/expenses/verify_token"
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    test();
+  }, []);
+
+
+
+
   return (
     <View style={styles.container}>
       {/* At the top, add a arrow that will takeyou back one step */}
       <View style={styles.header}>
-        <Text style={{ color: "darkblue", fontSize: 30 }}>Overview page</Text>
+        <Text style={{ color: "#00587a", fontSize: 30 }}>Overview page</Text>
       </View>
       <View style={styles.fotoContainer}>
         <Image
           source={{ uri: "https://picsum.photos/200/300" }}
           style={{ width: 80, height: 80 }}
         />
-        <Text>Name of user</Text>
+        <Text style={{ color: "#008891" }}>Name</Text>
       </View>
       <View style={styles.myExpenseTitle}>
-<Text style={{fontSize:30,}}>My expenses</Text>
+        <Text style={{ fontSize: 30, color: "#00587a" }}>My expenses</Text>
       </View>
       {/* Add a function that prints out all expenses, sorted after Recent purchase */}
       <View style={styles.allExpenses}>
-        {/* <Text style={{borderWidth: 1,
-    borderColor: 'orange'}}>Every Expense goes here</Text> */}
-    <Swipeable />
+        <Swipeable />
       </View>
     </View>
   );
@@ -34,38 +52,39 @@ export default Overview;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e0e0d3",
     borderColor: "blue",
     borderWidth: 1,
     width: "100%",
   },
   header: {
-    backgroundColor: "lightblue",
+    height: "15%",
     width: "100%",
-    height: '10%',
+    backgroundColor: "#e0e0d3",
     alignSelf: "flex-start",
     justifyContent: "center",
     alignItems: "center",
   },
   fotoContainer: {
-    height: '15%',
+    height: "15%",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "red",
+    // borderWidth: 1,
+    // borderColor: "red",
+    marginBottom: 10,
   },
-  myExpenseTitle:{
+  myExpenseTitle: {
+    height: "10%",
     borderWidth: 1,
-    borderColor: 'orange',
-    height: '10%',
+    borderColor: "green",
   },
   allExpenses: {
+    height: "60%",
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
-    borderColor: 'orange',
-    height: '65%',
-    width: '100%',
+    // borderWidth: 2,
+    // borderColor: "orange",
   },
 });

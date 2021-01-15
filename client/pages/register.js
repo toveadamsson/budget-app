@@ -20,8 +20,8 @@ const Register = ({ navigation }) => {
   const test = async() =>{
     try{
 
-      const response = await axios.post('http://192.168.1.54:3040/users/register',{form})
-
+      const response = await axios.post('http://192.168.1.54:3040/users/register',{...form})
+console.log(response.data)
         // const response = await axios.post('192.168.1.54:3040/users/register', form)
         if(response.data.ok)return navigation.navigate("Login")
     }catch(error){
@@ -66,7 +66,7 @@ const Register = ({ navigation }) => {
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.email}>Your income</Text>
           <TextInput
-            onChangeText={(text) => setValues({ ...form, income: text })}
+            onChangeText={(text) => setValues({ ...form, income: Number(text) })}
             style={styles.textInput}
           ></TextInput>
         </View>
@@ -128,7 +128,7 @@ export default Register;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e7e7de",
     alignItems: "center",
     justifyContent: "center",
     borderColor: "blue",
@@ -138,13 +138,12 @@ const styles = StyleSheet.create({
   introTitle: {
     fontSize: 30,
     fontWeight: "600",
-    borderWidth: 1,
-    borderColor: "green",
   },
   inputContainer: {
     width: "100%",
     height: "30%",
-    
+    borderColor: "blue",
+    borderWidth: 3,    
   },
   textInput: {
     borderWidth: 1,
