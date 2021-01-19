@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 // const validator = require('validator');
 const jwt_secret = process.env.JWT_SECRET;
 // the client is sending this body object
-//?===================================================================== 
+//?=========================ADD=========================================
 const add = async (req, res) => {
   const { item, amount, date, category } = req.body;
   const token = req.headers.authorization;
@@ -26,38 +26,38 @@ const add = async (req, res) => {
     res.json({ ok: false, error });
   }
 };
-//?===================================================================== 
+//?========================GET==========================================
 const get = async (req, res) => {
-
   try {
     const token = req.headers.authorization;
-	const decoded = jwt.verify(token, jwt_secret);
-	const found = await Expense.find({userId:decoded._id})
-	res.json({ ok: true, message:"successfully found", expenses: found})
+    const decoded = jwt.verify(token, jwt_secret);
+    const found = await Expense.find({ userId: decoded._id });
+    res.json({ ok: true, message: "successfully found", expenses: found });
   } catch (error) {
     console.log(error);
     res.json({ ok: false, error });
   }
 };
 
-//!
-//!
-//!!!!!!!! HÄR SKA JAG FORTSÄTTA PÅ TISDAG
-//!
-//!
-const remove =  async (req,res) => {
-  try{
+
+//?===================REMOVE============================================
+const remove = async (req, res) => {
   const token = req.headers.authorization;
-	const decoded = jwt.verify(token, jwt_secret);
-  const found = await Expense.find({userId:decoded._id})
-  const expenseId = req.params._id
-  res.json({ ok: true, message:"successfully found", expenses: found, expenseId:expenseId})
-} catch (error) {
-    console.log(error);
+  const _id = req.params._id
+  try {
+    const decoded = jwt.vertify(token, jtw_secret);
+    if(!decoded)return res.json({ ok: false, message: "invalid token"});
+    // const found = await Expense.find({ userId: decoded._id });
+    const removed = await Expense.deleteOne({_id}); // ?????
+    res.json({ ok: true, message: "successfully found", expense: removed });
+    // res.send({removed});
+  } catch (error) {
     res.json({ ok: false, error });
   }
-}
-//?===================================================================== 
+};
+//?===================EDIT===============================================
+
+//?=============VERTIFY TOKEN==========================================
 const verify_token = (req, res) => {
   console.log(req.headers.authorization);
   const token = req.headers.authorization;

@@ -37,7 +37,7 @@ const Login = ({ navigation, login }) => {
     <View style={styles.container}>
       {/* --------------------------------------------------------------------- */}
       <View style={styles.textContainer}>
-        <Text style={styles.introTitle}>Budget-App</Text>
+        <Text style={styles.introTitle}>little helper</Text>
         <View></View>
       </View>
       {/* -------------------------------------------------------------------- */}
@@ -47,7 +47,7 @@ const Login = ({ navigation, login }) => {
           <TextInput
             onChangeText={(text) => setValues({ ...form, email: text })}
             style={styles.input}
-            placeholder={"E-mail"}
+            placeholder={"Email"}
           ></TextInput>
         </View>
         <View style={{ flexDirection: "row" }}>
@@ -67,7 +67,7 @@ const Login = ({ navigation, login }) => {
               test();
             }}
           >
-            <Text style={styles.loginButton}>Log in</Text>
+            <Text style={styles.loginButton}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -4,25 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Swipeable from "../components/swipeable.js";
 import axios from "axios";
 import { useLinkProps } from "@react-navigation/native";
-const Overview = () => {
-  const [seeAll, setSeeAll] = useState([]);
-
-  useEffect(() => {
-    const test = async () => {
-      try {
-        const token = await AsyncStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = token;
-        const response = await axios.get(
-          "http://192.168.1.54:3040/expenses/get"
-        );
-        setSeeAll(response.data.expenses);
-        console.log('this is ====>', response.data)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    test();
-  }, []);
+const Overview = (props) => {
   return (
     <View style={styles.container}>
       {/* At the top, add a arrow that will take you back one step */}
@@ -39,16 +21,8 @@ const Overview = () => {
           My expenses
         </Text>
       </View>
-{/* 
-      {
-       seeAll.map(function(ele){
-           if(typeof ele === "string"){
-           }
-           return <Text>{ele.item}</Text>
-       })
-       } */}
       <View style={styles.allExpenses}>
-        <Swipeable expenses={seeAll}/>
+        <Swipeable expenses={props.seeAll}  />
       </View>
     </View>
   );

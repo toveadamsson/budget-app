@@ -19,11 +19,12 @@ export default function Basic(props) {
     }
   };
   const deleteRow = (rowMap, rowKey) => {
+     console.log(rowMap, rowKey)
     closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
+    // const newData = [...listData];
+    // const prevIndex = listData.findIndex((item) => item.key === rowKey);
+    // newData.splice(prevIndex, 1);
+    // setListData(newData);
   };
   const onRowDidOpen = (rowKey) => {
     console.log("This row opened", rowKey);

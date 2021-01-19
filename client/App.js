@@ -20,6 +20,8 @@ const Tab = createBottomTabNavigator();
 //?============================================================
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [seeAll, setSeeAll] = useState([]);
+  //?============================================================
   useEffect(() => {
     const test = async () => {
       try {
@@ -37,7 +39,24 @@ export default function App() {
     };
     test();
   }, []);
-
+  //?============================================================
+  useEffect(() => {
+    const test = async () => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = token;
+        const response = await axios.get(
+          "http://192.168.1.54:3040/expenses/get"
+        );
+        setSeeAll(response.data.expenses);
+        console.log("this is ====>", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    test();
+  }, []);
+  //?============================================================
   const login = async (token) => {
     try {
       await AsyncStorage.setItem("token", token);
@@ -51,11 +70,15 @@ export default function App() {
   return (
     <>
       {!isLoggedIn ? (
-        <NavigationContainer >
-          <Stack.Navigator  initialRouteName="Login" screenOptions={{headerShown: false}} topBarOptions={{
-          display: 'none'
-        }}>
-            <Stack.Screen name="Login" >
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Login"
+            screenOptions={{ headerShown: false }}
+            topBarOptions={{
+              display: "none",
+            }}
+          >
+            <Stack.Screen name="Login">
               {(props) => <Login {...props} login={login} />}
             </Stack.Screen>
             <Stack.Screen name="Register" component={Register} />
@@ -91,8 +114,14 @@ export default function App() {
               },
             }}
           >
-            <Tab.Screen name="AddExpense" component={AddExpense} />
-            <Tab.Screen name="Overview" component={Overview} />
+            {/* <Tab.Screen name="AddExpense" component={AddExpense} /> */}
+            <Tab.Screen name="AddExpense">
+              {(props) => <AddExpense {...props} seeAll={seeAll} setSeeAll={setSeeAll}/>}
+            </Tab.Screen>
+            {/* <Tab.Screen name="Overview" component={Overview} /> */}
+            <Tab.Screen name="Overview">
+              {(props) => <Overview {...props} seeAll={seeAll} />}
+            </Tab.Screen>
             <Tab.Screen name="Settings" component={Settings} />
           </Tab.Navigator>
         </NavigationContainer>

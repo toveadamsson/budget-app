@@ -40,6 +40,9 @@ const AddExpense = (props) => {
       if (response.data.ok) {
         alert("task created");
         setTimeout(() => {
+          const temp = [...props.seeAll];
+          temp.push(form)
+          props.setSeeAll(temp)
           props.navigation.navigate("Overview");
         }, 2000);
       } else {
@@ -68,6 +71,7 @@ const AddExpense = (props) => {
 
         <View style={styles.amountContainer}>
           <TextInput
+            autoCapitalize="none"
             style={styles.textInput}
             placeholder="Add Item"
             onChangeText={(text) => setValues({ ...form, item: text })}
@@ -78,6 +82,7 @@ const AddExpense = (props) => {
 
         <View style={styles.amountContainer}>
           <TextInput
+            autoCapitalize="none"
             style={styles.textInput}
             placeholder="Add Amount"
             onChangeText={(text) => setValues({ ...form, amount: text })}

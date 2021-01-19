@@ -44,7 +44,7 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
-            placeholder={"E-mail"}
+            placeholder={"Email"}
             onChangeText={(text) => setValues({ ...form, email: text })}
             style={styles.textInput}
           ></TextInput>
