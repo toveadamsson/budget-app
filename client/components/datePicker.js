@@ -1,40 +1,48 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import { StyleSheet, Text, View, Button } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+//!=======================================
+//!=======================================
+export default function App(props) {
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || props.form.date;
+    props.setValues({ ...props.form, date: currentDate });
+  };
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
 
-export default function App() {
-  const [currency, setCurrency] = useState("Groceries");
+  //!=======================================
+//!=======================================
   return (
-    <View style={styles.container}>
-      <Picker
-        style={{
-          height: 70,
-          width: '100%',
-          justifyContent: "center",
-          // borderWidth: 1,
-          // borderColor: "red",
-        }}
-        itemStyle={{ color: '#008891', backgroundColor:'#e0e0d3', height:70, }}
-        selectedValue={currency}
-        onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
-      >
-        <Picker.Item label="Choose a date" value="Choose a date" />
-        <Picker.Item label="Restaurant/Bars" value="Restaurant/Bars" />
-        <Picker.Item label="Shopping" value="Shopping" />
-        <Picker.Item label="Bills" value="Bills" />
-        <Picker.Item label="Transportation" value="Transportation" />
-        {/* <Picker.Item label="SGD  S$" value ="SGD S$"/> */}
-      </Picker>
+    <View style={{ height: 120, width: "100%" }}>
+      <DateTimePicker
+        style={styles.container}
+        testID="dateTimePicker"
+        value={props.form.date}
+        mode={mode}
+        is24Hour={true}
+        display="spinner"
+        onChange={onChange}
+      />
     </View>
   );
 }
+
+//!=======================================
+//!=======================================
+//!=======================================
+//!=======================================
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#e7e7de",
+    height: 120,
+    color: "#0f3057",
+    backgroundColor: "#e0e0d3",
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 1,
-    // borderColor: "yellow",
   },
 });

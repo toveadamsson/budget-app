@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 // const validator = require('validator');
 const jwt_secret = process.env.JWT_SECRET;
 // the client is sending this body object
-
+//?===================================================================== 
 const add = async (req, res) => {
   const { item, amount, date, category } = req.body;
   const token = req.headers.authorization;
@@ -26,10 +26,11 @@ const add = async (req, res) => {
     res.json({ ok: false, error });
   }
 };
-
+//?===================================================================== 
 const get = async (req, res) => {
 
   try {
+    const token = req.headers.authorization;
 	const decoded = jwt.verify(token, jwt_secret);
 	const found = await Expense.find({userId:decoded._id})
 	res.json({ ok: true, message:"successfully found", expenses: found})
@@ -39,6 +40,24 @@ const get = async (req, res) => {
   }
 };
 
+//!
+//!
+//!!!!!!!! HÄR SKA JAG FORTSÄTTA PÅ TISDAG
+//!
+//!
+const remove =  async (req,res) => {
+  try{
+  const token = req.headers.authorization;
+	const decoded = jwt.verify(token, jwt_secret);
+  const found = await Expense.find({userId:decoded._id})
+  const expenseId = req.params._id
+  res.json({ ok: true, message:"successfully found", expenses: found, expenseId:expenseId})
+} catch (error) {
+    console.log(error);
+    res.json({ ok: false, error });
+  }
+}
+//?===================================================================== 
 const verify_token = (req, res) => {
   console.log(req.headers.authorization);
   const token = req.headers.authorization;
@@ -49,4 +68,4 @@ const verify_token = (req, res) => {
   });
 };
 
-module.exports = { add, get, verify_token };
+module.exports = { add, get, remove, verify_token };

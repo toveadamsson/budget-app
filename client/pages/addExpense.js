@@ -12,42 +12,56 @@ import DatePicker from "../components/datePicker.js";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//?==============================================================================
-
-const AddExpense = (navigation) => {
-
-
+//?=============================================================================
+const AddExpense = (props) => {
   const [form, setValues] = useState({
-    item: "Coffee",
-    amount: 10,
-    date:"hello",
-    category:"hello",
+    item: "",
+    amount: 0,
+    date: new Date(),
+    category: "Various",
   });
+
   const test = async () => {
+    // const token = req.headers.authorization;
+    if (!form.item || !form.amount) return alert("missing field");
     try {
+      // if (!form.amount === Number) return alert("missing proper number");
       const token = await AsyncStorage.getItem("token");
-  
+      // console.log("form=======>",form);
       axios.defaults.headers.common["Authorization"] = token;
-      const response = await axios.post("http://192.168.1.54:3040/expenses/add", {
-        ...form,
-      });
+      const response = await axios.post(
+        "http://192.168.1.54:3040/expenses/add",
+        {
+          ...form,
+          amount: Number(form.amount),
+        }
+      );
       console.log(response.data);
-      // const response = await axios.post('192.168.1.54:3040/users/register', form)
-      // if(response.data.ok)return navigation.navigate("Login")
       if (response.data.ok) {
+        alert("task created");
         setTimeout(() => {
-          alert('task created')
+          props.navigation.navigate("Overview");
         }, 2000);
+      } else {
+        alert("something went wrong");
       }
     } catch (error) {
       console.log(error);
     }
   };
+  // const clear = async () => {
+  //   try {
+  //     setValues({ item: "", amount: 0 });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
+  //*===========================================
   return (
     <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
       <View style={styles.header}>
-        <Text style={{ color: "#00587a", fontSize: 30 }}>Add expense Page</Text>
+        <Text style={styles.headerText}>Add expense Page</Text>
       </View>
       <View style={styles.addContainer}>
         {/* =========================== WHAT ================================================= */}
@@ -71,61 +85,24 @@ const AddExpense = (navigation) => {
         </View>
         {/* ============================     DATE    =========================================== */}
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <DatePicker
-            onChangeText={(text) => setValues({ ...form, date: text })}
-          />
+        <View style={styles.inputField}>
+          <DatePicker setValues={setValues} form={form} />
         </View>
         {/* =======================      CATEGORY      ========================================== */}
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <CategoryPicker
-            onChangeText={(text) => setValues({ ...form, category: text })}
-          />
+        <View style={styles.inputField}>
+          <CategoryPicker setValues={setValues} form={form} />
         </View>
         {/* ============================================================================ */}
       </View>
-      {/* =========================        ADD ME          ====================================== */}
+      {/* =========================        ADD ME        ====================================== */}
       <View>
         <TouchableOpacity
-          style={{
-            width: "40%",
-            borderRadius: 3,
-            borderWidth: 1,
-            borderColor: "#0f3057",
-            alignItems: "center",
-            paddingHorizontal: 5,
-            paddingVertical: 10,
-            alignSelf: "center",
-            backgroundColor: "#e0e0d3",
-          }}
+          style={styles.addMe}
           onPress={() => {
-            navigation.navigate("Overview")
             test();
           }}
         >
-          <Text
-            style={{
-              fontSize: 25,
-              fontWeight: "700",
-              color: "#0f3057",
-              // borderColor: "black",
-              // borderWidth: 1,
-            }}
-          >
-            Add me
-          </Text>
+          <Text style={styles.addMeText}>Add me</Text>
         </TouchableOpacity>
       </View>
       {/* ============================================================================ */}
@@ -133,7 +110,11 @@ const AddExpense = (navigation) => {
   );
 };
 export default AddExpense;
-
+//!===================================================================
+//!===================================================================
+//!===================================================================
+//!===================================================================
+//!===================================================================
 const styles = StyleSheet.create({
   container: {
     height: "100%",
@@ -141,13 +122,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#e7e7de",
   },
   header: {
-    backgroundColor: "#e0e0d3",
+    backgroundColor: "#00587a",
+    paddingBottom: 5,
     width: "100%",
     height: "15%",
     alignSelf: "flex-start",
     justifyContent: "center",
     alignItems: "center",
-
+  },
+  headerText: {
+    color: "#e7e7de",
+    fontSize: 30,
+    fontFamily: "Optima",
   },
   addContainer: {
     justifyContent: "center",
@@ -165,16 +151,37 @@ const styles = StyleSheet.create({
     fontSize: 23,
     alignItems: "flex-end",
     justifyContent: "flex-end",
-    // textDecorationLine: 'underline'
+    fontFamily: "Optima",
   },
   amountContainer: {
     flexDirection: "row",
     color: "#008891",
     backgroundColor: "#e0e0d3",
-    height: 70,
+    height: 90,
     paddingHorizontal: 7,
-    // borderWidth: 1,
-    // borderColor: "green",
+    alignItems: "center",
+  },
+  addMe: {
+    width: "40%",
+    borderRadius: 3,
+    borderWidth: 1,
+    borderColor: "#0f3057",
+    alignItems: "center",
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    alignSelf: "center",
+    backgroundColor: "#e0e0d3",
+  },
+  addMeText: {
+    marginTop: 5,
+    fontSize: 25,
+    fontWeight: "700",
+    color: "#0f3057",
+    fontFamily: "Optima",
+  },
+  inputField: {
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
   },
 });

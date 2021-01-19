@@ -19,7 +19,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 //?============================================================
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   useEffect(() => {
     const test = async () => {
       try {
@@ -51,9 +51,11 @@ export default function App() {
   return (
     <>
       {!isLoggedIn ? (
-        <NavigationContainer style={{height:0,}}>
-          <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login">
+        <NavigationContainer >
+          <Stack.Navigator  initialRouteName="Login" screenOptions={{headerShown: false}} topBarOptions={{
+          display: 'none'
+        }}>
+            <Stack.Screen name="Login" >
               {(props) => <Login {...props} login={login} />}
             </Stack.Screen>
             <Stack.Screen name="Register" component={Register} />
@@ -85,7 +87,7 @@ export default function App() {
               style: {
                 height: 60,
                 backgroundColor: "#00587a",
-                paddingBottom: 5,
+                // paddingBottom: 5,
               },
             }}
           >

@@ -1,23 +1,44 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-export default function App() {
-  const [currency, setCurrency] = useState("Categories");
+//!=======================================
+//!=======================================
+export default function App(props) {
+  const [category, setCategory] = useState("category");
+  const [mode, setMode] = useState("category");
+  const [show, setShow] = useState(false);
+  const onChange = (event, selectedCategory) => {
+    const currentCategory = selectedCategory || props.form2.category;
+    props.setValues({ ...props.form, category: currentCategory });
+  };
+console.log(props)
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  //!=======================================
   return (
     <View style={styles.container}>
       <Picker
         style={{
-          height: 70,
+          height: 120,
           width: "100%",
           justifyContent: "center",
-          // borderWidth: 5,
-          // borderColor: "red",
         }}
-        itemStyle={{ color: "#008891", backgroundColor:'#e0e0d3', height: 70,}}
-        selectedValue={currency}
-        onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
+        itemStyle={{
+          color: "#008891",
+          backgroundColor: "#e0e0d3",
+          height: 120,
+          fontFamily: "Optima",
+        }}
+        selectedValue={props.form.category}
+    
+        onValueChange={(itemValue, itemIndex) =>
+          props.setValues({ ...props.form, category: itemValue })
+        }
       >
-        <Picker.Item label="Choose a Category" value="Choose a Category" />
+        <Picker.Item label="Various" value="Various" />
         <Picker.Item label="Groceries" value="Groceries" />
         <Picker.Item label="Restaurant/Bars" value="Restaurant/Bars" />
         <Picker.Item label="Shopping" value="Shopping" />
@@ -27,6 +48,11 @@ export default function App() {
     </View>
   );
 }
+
+//!=======================================
+//!=======================================
+//!=======================================
+//!=======================================
 const styles = StyleSheet.create({
   container: {
     flex: 1,
