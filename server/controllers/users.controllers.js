@@ -3,6 +3,7 @@ const argon2 = require('argon2'); //https://github.com/ranisalt/node-argon2/wiki
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const jwt_secret = process.env.JWT_SECRET;
+const Expenses = require('../models/expenses.models')
 // the client is sending this body object
 //  {
 //     email: form.email,
@@ -20,7 +21,7 @@ const register = async (req, res) => {
 		// 1234
 		// osiduv0w8hv08jew0vheohv
 		const hash = await argon2.hash(password);
-		console.log('hash ==>', hash);
+		// console.log('hash ==>', hash);
 		const newUser = {
 			name,
 			email,
@@ -56,6 +57,19 @@ const login = async (req, res) => {
 	}
 };
 
+const deleteaccount = async (req,res) => {
+	const token = req.headers.authorization;
+	try{
+		const decoded = jwt.verify(token, jwt_secret);
+		console.log('decoded', decoded._id)
+		await User.deleteOne({ _id:decoded._id})
+		await Expenses.deleteMany({userId:decoded._id})
+		res.json({ ok: true, message: 'Adios'});
+	}catch(error){
+		res.json({ ok: false, error });
+	}
+}
+
 const verify_token = (req, res) => {
 	console.log(req.headers.authorization);
 	const token = req.headers.authorization;
@@ -64,4 +78,4 @@ const verify_token = (req, res) => {
 	});
 };
 
-module.exports = { register, login, verify_token };
+module.exports = { register, login, deleteaccount, verify_token };

@@ -11,7 +11,6 @@ export default function App(props) {
     const currentCategory = selectedCategory || props.form2.category;
     props.setValues({ ...props.form, category: currentCategory });
   };
-console.log(props)
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -19,7 +18,7 @@ console.log(props)
 
   //!=======================================
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
       <Picker
         style={{
           height: 120,
@@ -27,10 +26,10 @@ console.log(props)
           justifyContent: "center",
         }}
         itemStyle={{
-          color: "#008891",
-          backgroundColor: "#e0e0d3",
+          color: "black",
+          backgroundColor: "#e8e8e8",
           height: 120,
-          fontFamily: "Optima",
+          fontFamily: "Helvetica",
         }}
         selectedValue={props.form.category}
     
@@ -45,7 +44,7 @@ console.log(props)
         <Picker.Item label="Bills" value="Bills" />
         <Picker.Item label="Transportation" value="Transportation" />
       </Picker>
-    </View>
+    // </View>
   );
 }
 
@@ -56,7 +55,7 @@ console.log(props)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e7e7de",
+    backgroundColor: "#f4f4f2",
     alignItems: "center",
     justifyContent: "center",
     // borderWidth: 1,

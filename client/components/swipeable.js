@@ -1,63 +1,103 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, Alert, View } from "react-native";
+import axios from "axios";
+import moment from "moment";
 import { SwipeListView } from "react-native-swipe-list-view"; // KOM IHÅG ATT ISTALLERA DESSA TYPER AV PAKET FÖR ATT DE SKALL KUNNA ANVÄNDAS
+//?--------------------------------------------
 export default function Basic(props) {
+  //?--------------------------------------------
   const [listData, setListData] = useState([]);
-  useEffect(()=>{
-    console.log('props =======>', props)
-     setListData(props.expenses)
-  },[props.expenses])
+
+  useEffect(() => {
+    const temp = props.filtered.map((ele, i) => {
+      return { key: `${i}`, ...ele };
+    });
+    setListData(temp);
+  }, [props.filtered]);
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   };
-  const deleteRow = (rowMap, rowKey) => {
-     console.log(rowMap, rowKey)
-    closeRow(rowMap, rowKey);
-    // const newData = [...listData];
-    // const prevIndex = listData.findIndex((item) => item.key === rowKey);
-    // newData.splice(prevIndex, 1);
-    // setListData(newData);
+  //?--------------------------------------------
+  const confirmDelete = (rowMap, data, _id) => {
+    Alert.alert(
+      "Remove Item",
+      "Are you sure?",
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => deleteRow(rowMap, data.item.key, data.item._id),
+        },
+      ],
+      { cancelable: false }
+    );
   };
+  //?--------------------------------------------
+  const deleteRow = async (rowMap, rowKey, _id) => {
+    console.log("*", _id);
+    try {
+      const response = await axios.delete(
+        `http://192.168.1.82:3040/expenses/remove/${_id}`
+      );
+      if (response.data.ok) {
+        const temp = [...props.filtered];
+        const index = temp.findIndex((el) => el._id === _id);
+        temp.splice(index, 1);
+        props.setSeeAll(temp);
+        props.setFiltered(temp);
+        alert("item deleted");
+      } else {
+        console.log("sww ======>", response.data);
+        alert("something went wrong :(");
+      }
+      closeRow(rowMap, rowKey);
+    } catch (error) {}
+  };
+  //?--------------------------------------------
+  const update = async () => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const onRowDidOpen = (rowKey) => {
-    console.log("This row opened", rowKey);
+    console.log("This row opened ==>", rowKey);
   };
+
   const renderItem = (data) => (
-    <TouchableHighlight
+    <View
       onPress={() => console.log("You touched me")}
       style={styles.rowFront}
-      underlayColor={"#AAA"}
+      underlayColor={"#f4f4f2"}
     >
-      <View>
-        <Text style={styles.text}>
-         {data.item.item}
+      <View style={styles.eachItemContainer}>
+        <Text numberOfLines={2} style={styles.text1}>
+          {data.item.item}
         </Text>
+        <Text style={styles.text2}>{data.item.amount}€</Text>
+        <Text style={styles.text3}>{moment(data.item.date).format("l")}</Text>
       </View>
-    </TouchableHighlight>
-  );
-  const renderHiddenItem = (data, rowMap) => (
-    <View style={styles.rowBack}>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnLeft]}
-        onPress={() => closeRow(rowMap, data.item.key)}
-      >
-        <Text style={styles.backTextWhite}>Edit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.backRightBtn, styles.backRightBtnRight]}
-        onPress={() => deleteRow(rowMap, data.item.key)}
-      >
-        <Text style={styles.backTextWhite}>Remove</Text>
-      </TouchableOpacity>
     </View>
   );
+  const renderHiddenItem = (data, rowMap, _id) => {
+    return (
+      <View style={styles.rowBack}>
+        <TouchableOpacity
+          style={[styles.backRightBtn, styles.backRightBtnRight]}
+          onPress={() => confirmDelete(rowMap, data, _id)}
+        >
+          <Text style={styles.backTextWhite}>Remove</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
   return (
     <View style={styles.container}>
       <SwipeListView
@@ -65,7 +105,7 @@ export default function Basic(props) {
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
         leftOpenValue={0}
-        rightOpenValue={-150}
+        rightOpenValue={-75}
         previewRowKey={"0"}
         previewOpenValue={-40}
         previewOpenDelay={3000}
@@ -76,37 +116,53 @@ export default function Basic(props) {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#e7e7de",
     flex: 1,
     width: "100%",
   },
   backTextWhite: {
-    color: "#e7e7de",
+    color: "black",
   },
-  text: {
-    fontSize: 20,
-    color: "#0f3057",
-    fontFamily: "Optima",
-    backgroundColor: "#e0e0d3",
+  eachItemContainer: {
     height: "100%",
-    width: 370,
-    paddingTop: 25,
-    paddingLeft: 5,
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  text1: {
+    paddingStart: 5,
+    fontSize: 22.5,
+    color: "black",
+    fontFamily: "Helvetica-Light",
+    backgroundColor: "#fff",
+    width: "45%",
+    paddingRight: 5,
+  },
+  text2: {
+    fontSize: 22.5,
+    color: "black",
+    fontFamily: "Helvetica-Light",
+    backgroundColor: "#fff",
+    width: "25%",
+  },
+  text3: {
+    fontSize: 22.5,
+    color: "black",
+    fontFamily: "Helvetica-Light",
+    backgroundColor: "#fff",
+    width: "30%",
   },
   rowFront: {
     alignItems: "center",
-    backgroundColor: "#e0e0d3",
-    // marginBottom:4,
-    borderColor: "#00587a",
+    backgroundColor: "#fff",
+    borderColor: "darkgrey",
     borderBottomWidth: 1,
     justifyContent: "center",
     height: 60,
   },
   rowBack: {
     alignItems: "center",
-    backgroundColor: "#DDD",
     flex: 1,
-    flexDirection: "row",
     justifyContent: "space-between",
     paddingLeft: 15,
   },
@@ -119,11 +175,11 @@ const styles = StyleSheet.create({
     width: 75,
   },
   backRightBtnLeft: {
-    backgroundColor: "#0f3057",
+    backgroundColor: "red",
     right: 75,
   },
   backRightBtnRight: {
-    backgroundColor: "#ef4f4f",
+    backgroundColor: "red",
     right: 0,
   },
 });

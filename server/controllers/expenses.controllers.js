@@ -38,24 +38,37 @@ const get = async (req, res) => {
     res.json({ ok: false, error });
   }
 };
-
-
 //?===================REMOVE============================================
 const remove = async (req, res) => {
   const token = req.headers.authorization;
-  const _id = req.params._id
+  const _id = req.params._id;
   try {
-    const decoded = jwt.vertify(token, jtw_secret);
-    if(!decoded)return res.json({ ok: false, message: "invalid token"});
+    //! fix next 2 lines
+    // const decoded = jwt.vertify(token, jtw_secret);
+    // if(!decoded)return res.json({ ok: false, message: "invalid token"});
     // const found = await Expense.find({ userId: decoded._id });
-    const removed = await Expense.deleteOne({_id}); // ?????
+    const removed = await Expense.deleteOne({ _id }); // ?????
     res.json({ ok: true, message: "successfully found", expense: removed });
     // res.send({removed});
   } catch (error) {
+    console.log("error ==>", error);
     res.json({ ok: false, error });
   }
 };
-//?===================EDIT===============================================
+//?===================UPDATE===============================================
+const edit = async (req, res) => {
+  let { newExpense, updateExpense } = req.headers.authorization;
+  try {
+    const updated = await Expense.updateOne(
+      { newExpense },
+      { newExpense: updateExpense }
+    );
+    res.send({ updated });
+  } catch (error) {
+    console.log(error);
+    res.json({ ok: false, error });
+  }
+};
 
 //?=============VERTIFY TOKEN==========================================
 const verify_token = (req, res) => {
@@ -67,5 +80,4 @@ const verify_token = (req, res) => {
       : res.json({ ok: true, succ });
   });
 };
-
-module.exports = { add, get, remove, verify_token };
+module.exports = { add, get, remove, edit, verify_token };

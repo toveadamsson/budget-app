@@ -4,8 +4,8 @@ import {
   View,
   Text,
   TextInput,
-  Image,
   TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import axios from "axios";
 //?==============================================================================
@@ -18,7 +18,7 @@ const Login = ({ navigation, login }) => {
   const test = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.1.54:3040/users/login",
+        "http://192.168.1.82:3040/users/login",
         { ...form }
       );
       console.log(response.data);
@@ -34,7 +34,7 @@ const Login = ({ navigation, login }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS == "ios" ? "padding" : "height" }>
       {/* --------------------------------------------------------------------- */}
       <View style={styles.textContainer}>
         <Text style={styles.introTitle}>little helper</Text>
@@ -45,6 +45,9 @@ const Login = ({ navigation, login }) => {
         {/* --------------------------------------------------------------------- */}
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
+            keyboardType="email-address"
+            autoCapitalize="none"
             onChangeText={(text) => setValues({ ...form, email: text })}
             style={styles.input}
             placeholder={"Email"}
@@ -52,6 +55,10 @@ const Login = ({ navigation, login }) => {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
+            secureTextEntry={true}
+            style={styles.default}
+            autoCapitalize="none"
             onChangeText={(text) => setValues({ ...form, password: text })}
             style={styles.input}
             placeholder={"Password"}
@@ -77,9 +84,10 @@ const Login = ({ navigation, login }) => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
+          marginTop:20,
         }}
       >
-        <Text style={{ fontFamily: "Optima" }}>
+        <Text style={{ fontFamily: "Helvetica",fontSize:18, }}>
           Haven't registered yet? Do it
         </Text>
         <TouchableOpacity
@@ -91,7 +99,7 @@ const Login = ({ navigation, login }) => {
           <Text style={styles.registerButton}>Here</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -100,7 +108,7 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e7e7de",
+    backgroundColor: "#f4f4f2",
     alignItems: "center",
     justifyContent: "center",
 
@@ -123,10 +131,9 @@ const styles = StyleSheet.create({
   introTitle: {
     fontSize: 70,
     fontWeight: "600",
-    fontFamily: "Optima",
+    fontFamily: "Helvetica",
+    color: "#bbbfca",
 
-    color: "#008891",
-    marginBottom: 10,
   },
   inputContainer: {
     height: 150,
@@ -138,34 +145,38 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderRadius: 4,
-    borderColor: "#00587a",
+    borderColor: "#495464",
     width: 330,
-    padding: 15,
-    fontSize: 20,
-    fontFamily: "Optima",
+    padding: 12,
+    fontSize: 25,
+    fontFamily: "Helvetica-Light",
   },
   clickMe: {
     borderRadius: 4,
     marginVertical: 5,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    backgroundColor: "#e0e0d3",
+    backgroundColor: "#e8e8e8",
   },
   loginButton: {
     fontSize: 20,
-    color: "#008891",
-    fontFamily: "Optima",
+    color: "#495464",
+    fontFamily: "Helvetica",
   },
   clickRegister: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     fontSize: 15,
-    fontFamily: "Optima",
+    fontFamily: "Helvetica",
   },
   registerButton: {
-    color: "#008891",
+    color: "#495464",
     fontWeight: "bold",
-    fontSize: 15,
-    fontFamily: "Optima",
+    fontSize: 18,
+    fontFamily: "Helvetica",
+    borderWidth:1,
+    borderColor:'grey',
+    borderRadius:4,
+    padding:3,
   },
 });

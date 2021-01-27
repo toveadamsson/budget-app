@@ -30,9 +30,11 @@ const cors = require("cors");
 app.use(cors());
 // =============== ROUTES ==============================
 app.use("/users", require("./routes/users.routes"));
+//================================
 app.use("/expenses", require("./routes/expenses.routes"));
+//================================
+//================================
 // app.use("/settings", require("./routes/settings.routes"));
-
 // app.get("/test-route", (req, res) => {
 //   res.json({ ok: true, message: "working as expected" });
 // });

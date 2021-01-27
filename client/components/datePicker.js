@@ -40,8 +40,8 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     height: 120,
-    color: "#0f3057",
-    backgroundColor: "#e0e0d3",
+    color: "#495464",
+    backgroundColor: "#e8e8e8",
     alignItems: "center",
     justifyContent: "center",
   },

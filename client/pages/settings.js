@@ -1,75 +1,77 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import About from "../pages/about.js";
-const Settings = () => {
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
+
+//?============================================================================================
+const Settings = (props) => {
+
+
+  const confirmDelete = () => {
+    Alert.alert(
+      'Remove Account',
+      'Are you sure?',
+      [
+        {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Yes', onPress: () => props.deleteUser()},
+      ],
+      { cancelable: false }  
+    )
+}
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={{ color: "darkblue", fontSize: 40, fontFamily: "Optima" }}>
-          Settings page
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.onTouch} onPress={() => {}}>
-          <Text style={styles.text}>Click me to change income</Text>
-        </TouchableOpacity>
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
         <View>
-          <TouchableOpacity style={styles.onTouch} onPress={() => {}}>
-            <Text style={styles.text} t>
-              Click me to change currency
-            </Text>
+          <TouchableOpacity
+            onPress={() => {
+              props.logout();
+            }}
+            style={styles.touch}
+          >
+            {/* ============================================ */}
+            <Text style={styles.text}>Log out</Text>
+  
           </TouchableOpacity>
         </View>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.onTouch} onPress={() => {}}>
-          <Text style={styles.text}>Click me to log out</Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.onTouch} onPress={() => {}}>
-          <Text style={styles.text}>Click me to delete account</Text>
-        </TouchableOpacity>
-      </View>
-      <View>
-        <TouchableOpacity style={styles.onTouch} onPress={() => {}}>
-          <Text style={styles.text}>Click me to read About</Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              confirmDelete();
+            }}
+            style={styles.touch}
+          >
+            {/* ============================================ */}
+            <Text style={styles.text}>Delete Account</Text>
+            {/* create an alert asking, are you sure */}
+            {/* ============================================ */}
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 
 export default Settings;
-
+//?===================================================================
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e7e7de",
-
-    width: "100%",
-  },
-  header: {
-    backgroundColor: "#e0e0d3",
-    width: "100%",
-    height: "15%",
-    alignSelf: "flex-start",
-    justifyContent: "center",
+    backgroundColor: "#f4f4f2",
     alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
-  text: {
-    color: "#00587a",
-    fontSize: 20,
-    fontFamily: "Optima",
-  },
-  onTouch: {
-    borderBottomWidth: 2,
-    borderBottomColor: "#00587a",
-    marginTop: 10,
-    marginBottom: 10,
+  touch: {
+    borderWidth: 1,
+    borderColor: "#495464",
+    borderRadius: 4,
+    marginTop: 5,
+    marginBottom: 20,
     paddingTop: 5,
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 5,
+  },
+  text: {
+    fontFamily: "Helvetica",
+    fontSize: 20,
   },
 });

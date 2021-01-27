@@ -6,17 +6,20 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import CategoryPicker from "../components/categoryPicker.js";
 import DatePicker from "../components/datePicker.js";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-//?=============================================================================
+
+//?=======================================================================
 const AddExpense = (props) => {
   const [form, setValues] = useState({
     item: "",
-    amount: 0,
+    amount: "",
     date: new Date(),
     category: "Various",
   });
@@ -27,10 +30,10 @@ const AddExpense = (props) => {
     try {
       // if (!form.amount === Number) return alert("missing proper number");
       const token = await AsyncStorage.getItem("token");
-      // console.log("form=======>",form);
+   
       axios.defaults.headers.common["Authorization"] = token;
       const response = await axios.post(
-        "http://192.168.1.54:3040/expenses/add",
+        "http://192.168.1.82:3040/expenses/add",
         {
           ...form,
           amount: Number(form.amount),
@@ -41,9 +44,19 @@ const AddExpense = (props) => {
         alert("task created");
         setTimeout(() => {
           const temp = [...props.seeAll];
-          temp.push(form)
-          props.setSeeAll(temp)
+          temp.push(form);
+          temp.sort(function (a, b) {
+            return new Date(b.date) - new Date(a.date);
+          });
+          props.setSeeAll(temp);
+          props.setFiltered(temp);
           props.navigation.navigate("Overview");
+          setValues({
+            item: "",
+            amount: 0,
+            date: new Date(),
+            category: "Various",
+          })
         }, 2000);
       } else {
         alert("something went wrong");
@@ -52,26 +65,22 @@ const AddExpense = (props) => {
       console.log(error);
     }
   };
-  // const clear = async () => {
-  //   try {
-  //     setValues({ item: "", amount: 0 });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   //*===========================================
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
+    <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Add expense Page</Text>
+        <Text style={styles.headerText}>Add your Expense</Text>
       </View>
       <View style={styles.addContainer}>
         {/* =========================== WHAT ================================================= */}
 
         <View style={styles.amountContainer}>
           <TextInput
-            autoCapitalize="none"
+            numberOfLines={2}
+            autoCorrect={false}
+            value={form.item}
+            // maxLength={22}
             style={styles.textInput}
             placeholder="Add Item"
             onChangeText={(text) => setValues({ ...form, item: text })}
@@ -79,15 +88,20 @@ const AddExpense = (props) => {
         </View>
 
         {/* =======================     AMOUNT   =============================================== */}
-
         <View style={styles.amountContainer}>
           <TextInput
+          autoCorrect={false}
+          // keyboardType="numeric"
+          
+            returnKeyType="done"
             autoCapitalize="none"
             style={styles.textInput}
-            placeholder="Add Amount"
+            placeholder="Add Amount in €"
+            value={form.amount}
             onChangeText={(text) => setValues({ ...form, amount: text })}
           ></TextInput>
         </View>
+
         {/* ============================     DATE    =========================================== */}
 
         <View style={styles.inputField}>
@@ -107,11 +121,11 @@ const AddExpense = (props) => {
             test();
           }}
         >
-          <Text style={styles.addMeText}>Add me</Text>
+          <Text style={styles.addMeText}>ADD</Text>
         </TouchableOpacity>
       </View>
       {/* ============================================================================ */}
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 export default AddExpense;
@@ -124,11 +138,11 @@ const styles = StyleSheet.create({
   container: {
     height: "100%",
     flex: 1,
-    backgroundColor: "#e7e7de",
+    backgroundColor: "#fff",
   },
   header: {
-    backgroundColor: "#00587a",
-    paddingBottom: 5,
+    
+    backgroundColor: "lightgrey",
     width: "100%",
     height: "15%",
     alignSelf: "flex-start",
@@ -136,32 +150,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    color: "#e7e7de",
+    color: "black",
     fontSize: 30,
-    fontFamily: "Optima",
+    fontFamily: "Helvetica",
   },
   addContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: "75%",
+    height: "73%",
   },
   textInput: {
-    height: 30,
+    height: 35,
     borderBottomWidth: 1,
-    borderBottomColor: "#008891",
+    borderBottomColor: "#bbbfca",
     width: "100%",
     paddingLeft: 5,
-    color: "#008891",
-    backgroundColor: "#e0e0d3",
+    color: "#495464",
+    backgroundColor: "#e8e8e8",
     fontSize: 23,
     alignItems: "flex-end",
     justifyContent: "flex-end",
-    fontFamily: "Optima",
+    fontFamily: "Helvetica-Light",
   },
   amountContainer: {
     flexDirection: "row",
-    color: "#008891",
-    backgroundColor: "#e0e0d3",
+    color: "#bbbfca",
+    backgroundColor: "#e8e8e8",
     height: 90,
     paddingHorizontal: 7,
     alignItems: "center",
@@ -170,19 +182,21 @@ const styles = StyleSheet.create({
     width: "40%",
     borderRadius: 3,
     borderWidth: 1,
-    borderColor: "#0f3057",
+    borderColor: "#495464",
     alignItems: "center",
     paddingHorizontal: 5,
     paddingVertical: 10,
     alignSelf: "center",
-    backgroundColor: "#e0e0d3",
+    backgroundColor: "#e8e8e8",
+    // marginBottom:55,
+
   },
   addMeText: {
     marginTop: 5,
     fontSize: 25,
     fontWeight: "700",
-    color: "#0f3057",
-    fontFamily: "Optima",
+    color: "black",
+    fontFamily: "Helvetica",
   },
   inputField: {
     flexDirection: "row",

@@ -6,6 +6,8 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Alert
 } from "react-native";
 import axios from "axios";
 //?============================================================================================
@@ -18,13 +20,16 @@ const Register = ({ navigation }) => {
     income: 0,
   });
   const test = async () => {
+    if(form.password.length  < 8){
+      return Alert.alert('password needs to have min 8 characters')
+    }
     try {
       const response = await axios.post(
-        "http://192.168.1.54:3040/users/register",
+        "http://192.168.1.82:3040/users/register",
         { ...form }
       );
       console.log(response.data);
-      // const response = await axios.post('192.168.1.54:3040/users/register', form)
+      // const response = await axios.post('192.168.1.82:3040/users/register', form)
       if (response.data.ok) return navigation.navigate("Login");
     } catch (error) {
       console.log(error);
@@ -32,11 +37,12 @@ const Register = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View  style={styles.container} >
       <Text style={styles.introTitle}>Register Page</Text>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
+      <KeyboardAvoidingView style={{ justifyContent: "center", alignItems: "center" }}behavior={Platform.OS == "ios" ? "padding" : "height" }>
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
             placeholder={"Name"}
             onChangeText={(text) => setValues({ ...form, name: text })}
             style={styles.textInput}
@@ -44,6 +50,9 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
+           keyboardType="email-address"
+           autoCapitalize="none"
             placeholder={"Email"}
             onChangeText={(text) => setValues({ ...form, email: text })}
             style={styles.textInput}
@@ -51,6 +60,10 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
+          secureTextEntry={true}
+          style={styles.default}
+          autoCapitalize="none"
             placeholder={"Password"}
             onChangeText={(text) => setValues({ ...form, password: text })}
             style={styles.textInput}
@@ -58,6 +71,10 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
+          secureTextEntry={true}
+          style={styles.default}
+          autoCapitalize="none"
             placeholder={"Password again"}
             onChangeText={(text) => setValues({ ...form, password2: text })}
             style={styles.textInput}
@@ -65,6 +82,8 @@ const Register = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: "row" }}>
           <TextInput
+          autoCorrect={false}
+          autoCapitalize="none"
             placeholder={"Your income"}
             onChangeText={(text) =>
               setValues({ ...form, income: Number(text) })
@@ -72,27 +91,29 @@ const Register = ({ navigation }) => {
             style={styles.textInput}
           ></TextInput>
         </View>
-
+        </KeyboardAvoidingView>
+{/* ========================== */}
+        <View>
         <View>
           <TouchableOpacity
             style={{
               borderWidth: 1,
-              borderColor: "#00587a",
+              borderColor: "#495464",
               borderRadius: 4,
-              marginTop: 5,
-              marginBottom: 20,
-              paddingTop: 5,
-              paddingLeft: 10,
-              paddingRight: 10,
-              paddingBottom: 5,
+              marginTop: 15,
+              width:'50%',
+              height:40,
+              justifyContent:'center',
+              alignContent:'center',
+              paddingLeft:15,
+              marginLeft:45,
+              marginBottom:40,
             }}
             onPress={() => {
               test();
-
-              // navigation.navigate("Login");
             }}
           >
-            <Text style={{fontFamily: 'Optima',  fontSize: 20,}}>Register</Text>
+            <Text style={{fontFamily: 'Optima',  fontSize: 23,}}>Register</Text>
           </TouchableOpacity>
         </View>
         <View
@@ -103,14 +124,14 @@ const Register = ({ navigation }) => {
             
           }}
         >
-          <Text style={{fontFamily: 'Optima',}}>Already a member?</Text>
+          <Text style={{fontFamily: 'Optima',fontSize:18,}}>Already a member?</Text>
           <TouchableOpacity
             style={{
               borderRadius: 4,
               marginVertical: 5,
               paddingHorizontal: 15,
               paddingVertical: 10,
-              backgroundColor: "#e0e0d3",
+              backgroundColor: "#e8e8e8",
               marginLeft: 5,
             }}
             
@@ -121,7 +142,8 @@ const Register = ({ navigation }) => {
             <Text style={{fontSize: 20,fontFamily: 'Optima',}}>Login</Text>
           </TouchableOpacity>
         </View>
-      </View>
+        </View>
+      
     </View>
   );
 };
@@ -131,22 +153,22 @@ export default Register;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e7e7de",
+    backgroundColor: "#f4f4f2",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
   },
   introTitle: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "600",
-    color: "#008891",
+    color: "#bbbfca",
     marginBottom: 10,
     fontFamily: 'Optima',
   },
   inputContainer: {
     width: "100%",
-    height: "30%",
-    borderColor: "#00587a",
+    height: "40%",
+    borderColor: "#495464",
     borderWidth: 3,
     
   },
@@ -154,13 +176,13 @@ const styles = StyleSheet.create({
     fontFamily:'Optima',
     borderWidth: 1,
     borderRadius: 4,
-    borderColor: "#00587a",
+    borderColor: "#495464",
     marginBottom: 5,
     width: 300,
-    height: 40,
+    height: 50,
     marginLeft: 5,
     padding: 5,
     marginVertical: 5,
-    
+    fontSize:22.5,
   },
 });
