@@ -141,8 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   header: {
-    
-    backgroundColor: "lightgrey",
+    backgroundColor: "#8da386",
     width: "100%",
     height: "15%",
     alignSelf: "flex-start",
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    color: "black",
+    color: "white",
     fontSize: 30,
     fontFamily: "Helvetica",
   },

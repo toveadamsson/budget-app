@@ -16,13 +16,31 @@ const Settings = (props) => {
       { cancelable: false }  
     )
 }
+const confirmLogout = (rowMap, data, _id) => {
+  Alert.alert(
+    "Log out",
+    "Are you sure?",
+    [
+      {
+        text: "No",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        onPress: () => props.logout(),
+      },
+    ],
+    { cancelable: false }
+  );
+};
   return (
     <View style={styles.container}>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <View>
           <TouchableOpacity
             onPress={() => {
-              props.logout();
+              confirmLogout();
             }}
             style={styles.touch}
           >

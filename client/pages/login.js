@@ -24,9 +24,11 @@ const Login = ({ navigation, login }) => {
       console.log(response.data);
 
       if (response.data.ok) {
+        alert("Login successfull!");
         setTimeout(() => {
           login(response.data.token);
         }, 2000);
+
       }
     } catch (error) {
       console.log(error);
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 70,
     fontWeight: "600",
     fontFamily: "Helvetica",
-    color: "#bbbfca",
+    color: "#bac7a7",
 
   },
   inputContainer: {
@@ -170,12 +172,13 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica",
   },
   registerButton: {
-    color: "#495464",
+  
+    color: "#919c81",
     fontWeight: "bold",
     fontSize: 18,
     fontFamily: "Helvetica",
     borderWidth:1,
-    borderColor:'grey',
+    borderColor:'#535949',
     borderRadius:4,
     padding:3,
   },

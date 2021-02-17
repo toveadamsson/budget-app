@@ -35,8 +35,24 @@ export default function App(props) {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>Bezier Line Chart</Text>
+      <View
+        style={{
+          width: "100%",
+          // borderColor: "black",
+          // borderWidth: 1,
+          padding: 0,
+          height: "15%",
+          paddingVertical:10,
+        }}
+      >
+        <Text
+          style={{ fontFamily: "Helvetica", fontSize: 35, textAlign: "center" }}
+        >
+          Yearly expenses per month
+        </Text>
+      </View>
+      {/* borderWidth:1,borderColor:'red', */}
+      <View style={{}}>
         <LineChart
           data={{
             labels: [
@@ -60,14 +76,13 @@ export default function App(props) {
             ],
           }}
           width={Dimensions.get("window").width} // from react-native
-          height={500}
+          height={450}
           yAxisSuffix="€"
           yAxisInterval={2} // optional, defaults to 1
           segments={12}
           chartConfig={{
-            backgroundColor: "#e26a00",
-            backgroundGradientFrom: "#adce74",
-            backgroundGradientTo: "#153e90",
+            backgroundGradientFrom: "#bac7a7",
+            backgroundGradientTo: "#889e81",
             decimalPlaces: 0, // optional, defaults to 2dp
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -76,8 +91,8 @@ export default function App(props) {
             },
             propsForDots: {
               r: "6",
-              strokeWidth: "0.5",
-              stroke: "white",
+              strokeWidth: "1",
+              stroke: "#889e81",
             },
           }}
           // withVerticalLabels={false}
@@ -86,9 +101,11 @@ export default function App(props) {
           // withOuterLines={false}
           bezier
           style={{
-            marginVertical: 0,
-            borderRadius: 4,
-            paddingTop:80,
+            justifyContent: "flex-end",
+            paddingTop: 50,
+            borderRadius: 0,
+            height: 450,
+            // backgroundColor:'red',
      
           }}
         />

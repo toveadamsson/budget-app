@@ -21,7 +21,7 @@ const Overview = (props) => {
     >
       {/* At the top, add a arrow that will take you back one step */}
       <View style={styles.header}>
-        <Text style={{ color: "black", fontSize: 35, fontFamily: "Helvetica" }}>
+        <Text style={{ color: "white", fontSize: 35, fontFamily: "Helvetica" }}>
           Overview
         </Text>
       </View>
@@ -30,7 +30,7 @@ const Overview = (props) => {
           borderWidth: 1,
           bordercolor: "black",
           height: 50,
-          margin: 5,
+          margin: 1,
           flexDirection: "row",
         }}
       >
@@ -42,21 +42,21 @@ const Overview = (props) => {
           }}
           style={{
             borderWidth: 0.5,
-            borderColor: "#495464",
-            width: "80%",
+            borderColor: "#6b7d65",
+            width: "100%",
             fontSize: 25,
             color: "#495464",
             fontFamily: "Helvetica-Light",
           }}
         ></TextInput>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             borderWidth: 1,
-            borderColor: "#495464",
+            borderColor: "#6b7d65",
             width: "20%",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#495464",
+            backgroundColor: "#6b7d65",
           }}
         >
           <Text
@@ -64,7 +64,7 @@ const Overview = (props) => {
           >
             Search
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {/* ============================================== */}
       <ScrollView style={styles.allExpenses}>
@@ -89,10 +89,10 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   header: {
-    backgroundColor: "lightgrey",
+    backgroundColor: "#8da386",
     paddingBottom: 5,
     width: "100%",
-    height: "15%",
+    height: "14%",
     alignSelf: "flex-start",
     justifyContent: "center",
     alignItems: "center",

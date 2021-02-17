@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, KeyboardAvoidingView, View, Text, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
@@ -22,7 +22,7 @@ const Tab = createBottomTabNavigator();
 const { width, height } = Dimensions.get("window");
 //?============================================================
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // alltid vara false
   const [seeAll, setSeeAll] = useState([]);
   const [filtered, setFiltered] = useState([]);
   //?============================================================
@@ -92,6 +92,8 @@ export default function App() {
     } catch (error) {
       console.log(error);
     }
+    // const temp = seeAll.removeItem((el)=> )
+
   };
   //?========================================================
   const deleteUser = async () => {
@@ -133,13 +135,13 @@ export default function App() {
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
                 if (route.name === "Add") {
-                  iconName = focused ? "edit" : "edit";
+                  iconName = focused ? "form" : "form";
                 } else if (route.name === "Settings") {
                   iconName = focused ? "setting" : "setting";
                 } else if (route.name === "Overview") {
                   iconName = focused ? "search1" : "search1";
                 } else if (route.name === "Chart") {
-                  iconName = focused ? "linechart" : "linechart";
+                  iconName = focused ? "dotchart" : "dotchart";
                 }
                 // You can return any component that you like here!
                 return (
@@ -153,12 +155,12 @@ export default function App() {
             tabBarOptions={{
               showLabel: false,
               flexDirection: "column",
-              activeTintColor: "black",
-              inactiveTintColor: "#557174",
+              activeTintColor: "#6a8e91",
+              inactiveTintColor: "white",
               style: {
                 paddingBottom: 5,
                 height: 60,
-                backgroundColor: "lightgrey",
+                backgroundColor: "#6b7d65",
               },
             }}
           >
